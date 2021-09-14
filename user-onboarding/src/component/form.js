@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import * as yup from "yup";
+import { formSchema } from "./schema";
+import { cb_validate } from "./validation";
 
 export default function Form(props) {
   const initial_state_stateFormData = {
@@ -58,33 +60,6 @@ export default function Form(props) {
     border: 2px solid blue;
   `;
 
-  //construct a schema
-  const formSchema = yup.object().shape(
-    //new object
-    {
-      name: yup
-        .string()
-        .trim()
-        .required("name is required")
-        .min(3, "name must be at least 3 characters"),
-      email: yup
-        .string()
-        .trim()
-        .email("email musst be valid")
-        .required("Email is required"),
-      password: yup.string().min(5, "password must be at least 5 characters"),
-      termsOfService: yup
-        .boolean()
-        .required("must agree with the term of agreement")
-        .default(true),
-      role: yup
-        .string()
-        .required("must select a role")
-        .oneOf(["it", "sale", "developer"], "Must select a role"),
-    }
-  );
-
-  //callback for validation
   const cb_validate = (name, value) => {
     yup
       .reach(formSchema, name)
@@ -195,8 +170,8 @@ export default function Form(props) {
           >
             <option value="">(Please select)</option>
             <option value="it">IT</option>
-            <option value="sale">Sales</option>
-            <option value="developer">developer</option>
+            <option value="sales">Sales</option>
+            <option value="developer">Developer</option>
           </Select_Input>
         </label>
         <Validation_P>{stateFormValidation.role}</Validation_P>
