@@ -4,15 +4,35 @@ import styled from "styled-components";
 import axios from "axios";
 
 export default function Form(props) {
-  const initial_state = {
+  const initial_state_stateFormData = {
     name: "",
     email: "",
     password: "",
     termsOfService: false,
     role: "",
   };
-  const [stateForm, set_stateForm] = useState(initial_state);
-  const [stateValidation, set_stateValidation] = useState(false);
+
+  const initial_state_stateFormValidation = {
+    name: "",
+    email: "",
+    password: "",
+    termsOfService: "",
+    role: "",
+  };
+  const initial_state_stateFormValidation_sample = {
+    name: "(validation_text)",
+    email: "(validation_text)",
+    password: "(validation_text)",
+    termsOfService: "(validation_text)",
+    role: "(validation_text)",
+  };
+  const [stateFormData, set_stateFormData] = useState(
+    initial_state_stateFormData
+  );
+  const [stateBooleanValidation, set_stateBooleanValidation] = useState(false);
+  const [stateFormValidation, set_stateFormValidation] = useState(
+    initial_state_stateFormValidation
+  );
 
   const Form_Div = styled.div`
     border: 1px solid blue;
@@ -30,7 +50,11 @@ export default function Form(props) {
 
   const Button_Show_Hide = styled.div`
     /* hide submit button if the form is not yet validated */
-    display: ${stateValidation === false ? "none" : "block"};
+    display: ${stateBooleanValidation === false ? "none" : "block"};
+  `;
+
+  const Select_Input = styled.select`
+    border: 2px solid blue;
   `;
 
   const cb_onChange = (event) => {
@@ -38,20 +62,35 @@ export default function Form(props) {
     // console.log("event.target.value = ", event.target.value);
     const { name, value } = event.target;
     const toUseValue =
-      name === "termsOfService" ? !stateForm.termsOfService : value;
-    set_stateForm({ ...stateForm, [name]: toUseValue });
+      name === "termsOfService" ? !stateFormData.termsOfService : value;
+    set_stateFormData({ ...stateFormData, [name]: toUseValue });
   };
 
   const cb_onSubmit = (event) => {
     event.preventDefault();
 
     const API_URL = "https://reqres.in/api/users";
-    axios.post(API_URL, stateForm).then((response) => {
+    axios.post(API_URL, stateFormData).then((response) => {
       //   console.log("response.status = ", response.status);
       //   console.log("response.data = ", response.data);
       props.set_stateUser(response.data);
     });
   };
+
+  /*
+    keep track of the fields and perform validation
+  */
+  useEffect(() => {
+    if (
+      stateFormData.name !== "" &&
+      stateFormData.email !== "" &&
+      stateFormData.password != "" &&
+      stateFormData.role !== "" &&
+      stateFormData.termsOfService === true
+    ) {
+      set_stateBooleanValidation(true);
+    }
+  }, [stateFormData]);
 
   return (
     <Form_Div>
@@ -64,10 +103,10 @@ export default function Form(props) {
             type="text"
             onChange={cb_onChange}
             name="name"
-            value={stateForm.name}
+            value={stateFormData.name}
           />
         </label>
-        <Validation_P>(validation text)</Validation_P>
+        <Validation_P>{stateFormValidation.name}</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
@@ -76,10 +115,10 @@ export default function Form(props) {
             type="text"
             onChange={cb_onChange}
             name="email"
-            value={stateForm.email}
+            value={stateFormData.email}
           />
         </label>
-        <Validation_P>(validation text)</Validation_P>
+        <Validation_P>{stateFormValidation.email}</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
@@ -88,36 +127,40 @@ export default function Form(props) {
             type="text"
             onChange={cb_onChange}
             name="password"
-            value={stateForm.password}
+            value={stateFormData.password}
           />
         </label>
-        <Validation_P>(validation text)</Validation_P>
+        <Validation_P>{stateFormValidation.password}</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
           <b>Terms of Service</b>
           <Input_Text
             type="checkbox"
-            checked={stateForm.termsOfService ? true : false}
+            checked={stateFormData.termsOfService ? true : false}
             onChange={cb_onChange}
             name="termsOfService"
-            value={stateForm.termsOfService}
+            value={stateFormData.termsOfService}
           />
         </label>
-        <Validation_P>(validation text)</Validation_P>
+        <Validation_P>{stateFormValidation.termsOfService}</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
           {" "}
           <b>Role :</b>
-          <select value={stateForm.role} name="role" onChange={cb_onChange}>
+          <Select_Input
+            value={stateFormData.role}
+            name="role"
+            onChange={cb_onChange}
+          >
             <option value="">(Please select)</option>
             <option value="it">IT</option>
             <option value="sale">Sales</option>
             <option value="developer">developer</option>
-          </select>
+          </Select_Input>
         </label>
-        <Validation_P>(validation text)</Validation_P>
+        <Validation_P>{stateFormValidation.role}</Validation_P>
         {/* ----------------------------------- */}
         <Button_Show_Hide>
           <button>Submit</button>
