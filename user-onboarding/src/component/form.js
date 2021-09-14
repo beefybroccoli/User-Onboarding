@@ -22,13 +22,7 @@ export default function Form(props) {
     termsOfService: "",
     role: "",
   };
-  const initial_state_stateFormValidation_sample = {
-    name: "(validation_text)",
-    email: "(validation_text)",
-    password: "(validation_text)",
-    termsOfService: "(validation_text)",
-    role: "(validation_text)",
-  };
+
   const [stateFormData, set_stateFormData] = useState(
     initial_state_stateFormData
   );
@@ -60,6 +54,9 @@ export default function Form(props) {
     border: 2px solid blue;
   `;
 
+  /*
+   helper for input validation
+  */
   const cb_validate = (name, value) => {
     yup
       .reach(formSchema, name)
@@ -75,14 +72,23 @@ export default function Form(props) {
       });
   };
 
+  /*
+    keep track of the fields and perform validation
+  */
+  useEffect(() => {
+    formSchema.isValid(stateFormData).then(() => {
+      set_stateBooleanValidation(!stateBooleanValidation);
+    });
+  }, [stateFormValidation]);
+
   const cb_onChange = (event) => {
-    // console.log("event.target.name = ", event.target.name);
-    // console.log("event.target.value = ", event.target.value);
+    event.preventDefault();
     const { name, value } = event.target;
     const toUseValue =
       name === "termsOfService" ? !stateFormData.termsOfService : value;
     //validate each field
     cb_validate(name, toUseValue);
+    //store new data in stateFormData
     set_stateFormData({ ...stateFormData, [name]: toUseValue });
   };
 
@@ -96,15 +102,6 @@ export default function Form(props) {
       props.set_stateUser(response.data);
     });
   };
-
-  /*
-    keep track of the fields and perform validation
-  */
-  useEffect(() => {
-    formSchema.isValid(stateFormData).then(() => {
-      set_stateBooleanValidation(!stateBooleanValidation);
-    });
-  }, [stateFormData]);
 
   return (
     <Form_Div>

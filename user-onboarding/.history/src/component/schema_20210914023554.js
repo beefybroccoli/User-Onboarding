@@ -15,9 +15,12 @@ export const formSchema = yup.object().shape(
       .required("Email is required"),
     password: yup.string().min(5, "password must be at least 5 characters"),
     termsOfService: yup
-      .boolean()
+      .boolean(true)
       .required("must agree with the term of agreement"),
-    role: yup.string().oneOf(["it", "sales", "developer"], "role is required"),
+    role: yup
+      .string()
+      .oneOf(["it", "sales", "developer"])
+      .required("role is required"),
   }
 );
 

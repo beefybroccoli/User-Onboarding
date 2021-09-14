@@ -17,7 +17,10 @@ export const formSchema = yup.object().shape(
     termsOfService: yup
       .boolean()
       .required("must agree with the term of agreement"),
-    role: yup.string().oneOf(["it", "sales", "developer"], "role is required"),
+    role: yup
+      .string()
+      .oneOf(["it", "sales", "developer"],"role is required")
+      .required(),
   }
 );
 
