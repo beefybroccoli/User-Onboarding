@@ -153,7 +153,7 @@ export default function Form(props) {
         </label>
         <Validation_P>{stateInputValidation.role}</Validation_P>
         {/* ----------------------------------- */}
-        {/* the submit button remain disabled until "stateFormValidation = true" */}
+        the submit button remain disabled until "stateFormValidation = true"
         <button disabled={!stateFormValidation}>Submit</button>
       </form>
     </Form_Div>
