@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -18,6 +19,10 @@ export default function Form(props) {
   const Validation_P = styled.div`
     background-color: grey;
     color: blue;
+  `;
+
+  const Input_Text = styled.input`
+    border: 2px solid blue;
   `;
 
   const cb_onChange = (event) => {
@@ -41,7 +46,7 @@ export default function Form(props) {
         {/* ----------------------------------- */}
         <label>
           <b>Name : </b>
-          <input
+          <Input_Text
             type="text"
             onChange={cb_onChange}
             name="name"
@@ -53,7 +58,7 @@ export default function Form(props) {
         {/* ----------------------------------- */}
         <label>
           <b>Email : </b>
-          <input
+          <Input_Text
             type="text"
             onChange={cb_onChange}
             name="email"
@@ -65,7 +70,7 @@ export default function Form(props) {
         {/* ----------------------------------- */}
         <label>
           <b>Password : </b>
-          <input
+          <Input_Text
             type="text"
             onChange={cb_onChange}
             name="password"
@@ -77,7 +82,7 @@ export default function Form(props) {
         {/* ----------------------------------- */}
         <label>
           <b>Terms of Service</b>
-          <input
+          <Input_Text
             type="checkbox"
             checked={stateForm.termsOfService ? true : false}
             onChange={cb_onChange}
