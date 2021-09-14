@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Form from "./component/form";
+import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 
 function App() {
+  const App_Div = styled.div`
+    border: 2px solid black;
+    margin: 1%;
+    height: 95vh;
+  `;
+
+  const [stateArray, set_stateArray] = useState([]);
+  const [stateUser, set_stateUser] = useState(null);
+
+  //run once after initial rendering
+  useEffect(() => {}, []);
+
+  //run when stateArray changes
+  useEffect(() => {
+    console.log("stateArray.length = ", stateArray.length);
+  }, [stateArray]);
+
+  //run when stateUser changes
+  useEffect(() => {
+    if (stateUser) {
+      //store stateUser in stateArray
+      set_stateArray([...stateArray, stateUser]);
+      //set stateUser to null
+      set_stateUser(null);
+    }
+  }, [stateUser]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <App_Div className="App">
+      <header>
+        <h1>User Onboarding</h1>
+        <Form set_stateUser={set_stateUser} />
       </header>
-    </div>
+    </App_Div>
   );
 }
 
