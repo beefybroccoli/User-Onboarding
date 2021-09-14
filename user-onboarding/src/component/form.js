@@ -12,6 +12,7 @@ export default function Form(props) {
     role: "",
   };
   const [stateForm, set_stateForm] = useState(initial_state);
+  const [stateValidation, set_stateValidation] = useState(false);
 
   const Form_Div = styled.div`
     border: 1px solid blue;
@@ -25,6 +26,11 @@ export default function Form(props) {
 
   const Input_Text = styled.input`
     border: 2px solid blue;
+  `;
+
+  const Button_Show_Hide = styled.div`
+    /* hide submit button if the form is not yet validated */
+    display: ${stateValidation === false ? "none" : "block"};
   `;
 
   const cb_onChange = (event) => {
@@ -113,7 +119,9 @@ export default function Form(props) {
         </label>
         <Validation_P>(validation text)</Validation_P>
         {/* ----------------------------------- */}
-        <button>Submit</button>
+        <Button_Show_Hide>
+          <button>Submit</button>
+        </Button_Show_Hide>
       </form>
     </Form_Div>
   );
