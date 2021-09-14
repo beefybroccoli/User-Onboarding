@@ -15,6 +15,11 @@ export default function Form(props) {
     margin: 0 1% 0 1%;
   `;
 
+  const Validation_P = styled.div`
+    background-color: grey;
+    color: blue;
+  `;
+
   const cb_onChange = (event) => {
     console.log("event.target.name = ", event.target.name);
     console.log("event.target.value = ", event.target.value);
@@ -43,6 +48,7 @@ export default function Form(props) {
             value={stateForm.name}
           />
         </label>
+        <Validation_P>(validation text)</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
@@ -54,6 +60,7 @@ export default function Form(props) {
             value={stateForm.email}
           />
         </label>
+        <Validation_P>(validation text)</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
@@ -65,6 +72,7 @@ export default function Form(props) {
             value={stateForm.password}
           />
         </label>
+        <Validation_P>(validation text)</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <label>
@@ -77,6 +85,7 @@ export default function Form(props) {
             value={stateForm.termsOfService}
           />
         </label>
+        <Validation_P>(validation text)</Validation_P>
         <br />
         {/* ----------------------------------- */}
         <button>Submit</button>
