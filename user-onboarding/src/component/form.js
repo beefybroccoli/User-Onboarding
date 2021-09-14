@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import * as yup from "yup";
 
 export default function Form(props) {
   const initial_state_stateFormData = {
@@ -57,12 +58,56 @@ export default function Form(props) {
     border: 2px solid blue;
   `;
 
+  //construct a schema
+  const formSchema = yup.object().shape(
+    //new object
+    {
+      name: yup
+        .string()
+        .trim()
+        .required("name is required")
+        .min(3, "name must be at least 3 characters"),
+      email: yup
+        .string()
+        .trim()
+        .email("email musst be valid")
+        .required("Email is required"),
+      password: yup.string().min(5, "password must be at least 5 characters"),
+      termsOfService: yup
+        .boolean()
+        .required("must agree with the term of agreement")
+        .default(true),
+      role: yup
+        .string()
+        .required("must select a role")
+        .oneOf(["it", "sale", "developer"], "Must select a role"),
+    }
+  );
+
+  //callback for validation
+  const cb_validate = (name, value) => {
+    yup
+      .reach(formSchema, name)
+      .validate(value)
+      .then(() => {
+        set_stateFormValidation({ ...stateFormValidation, [name]: "" });
+      })
+      .catch((err) => {
+        set_stateFormValidation({
+          ...stateFormValidation,
+          [name]: err.errors[0],
+        });
+      });
+  };
+
   const cb_onChange = (event) => {
     // console.log("event.target.name = ", event.target.name);
     // console.log("event.target.value = ", event.target.value);
     const { name, value } = event.target;
     const toUseValue =
       name === "termsOfService" ? !stateFormData.termsOfService : value;
+    //validate each field
+    cb_validate(name, toUseValue);
     set_stateFormData({ ...stateFormData, [name]: toUseValue });
   };
 
@@ -81,15 +126,9 @@ export default function Form(props) {
     keep track of the fields and perform validation
   */
   useEffect(() => {
-    if (
-      stateFormData.name !== "" &&
-      stateFormData.email !== "" &&
-      stateFormData.password != "" &&
-      stateFormData.role !== "" &&
-      stateFormData.termsOfService === true
-    ) {
-      set_stateBooleanValidation(true);
-    }
+    formSchema.isValid(stateFormData).then(() => {
+      set_stateBooleanValidation(!stateBooleanValidation);
+    });
   }, [stateFormData]);
 
   return (
@@ -169,3 +208,15 @@ export default function Form(props) {
     </Form_Div>
   );
 }
+
+/*
+    if (
+      stateFormData.name !== "" &&
+      stateFormData.email !== "" &&
+      stateFormData.password != "" &&
+      stateFormData.role !== "" &&
+      stateFormData.termsOfService === true
+    ) {
+      set_stateBooleanValidation(true);
+    }
+*/
