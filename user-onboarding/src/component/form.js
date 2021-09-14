@@ -78,7 +78,7 @@ export default function Form(props) {
     formSchema.isValid(stateFormData).then(() => {
       set_stateBooleanValidation(!stateBooleanValidation);
     });
-  }, [stateFormValidation]);
+  }, [stateFormData]);
 
   const cb_onChange = (event) => {
     event.preventDefault();

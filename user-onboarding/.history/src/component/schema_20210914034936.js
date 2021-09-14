@@ -18,9 +18,7 @@ export const formSchema = yup.object().shape(
       .boolean()
       .required("must agree with the term of agreement"),
     role: yup
-      .string()
       .required("please select a role")
-      .notOneOf([""])
       .oneOf(["it", "sales", "developer"], "must select of the position"),
   }
 );
