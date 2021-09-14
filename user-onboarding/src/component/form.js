@@ -9,6 +9,7 @@ export default function Form(props) {
     email: "",
     password: "",
     termsOfService: false,
+    role: "",
   };
   const [stateForm, set_stateForm] = useState(initial_state);
 
@@ -99,6 +100,18 @@ export default function Form(props) {
         </label>
         <Validation_P>(validation text)</Validation_P>
         <br />
+        {/* ----------------------------------- */}
+        <label>
+          {" "}
+          <b>Role :</b>
+          <select value={stateForm.role} name="role" onChange={cb_onChange}>
+            <option value="">(Please select)</option>
+            <option value="it">IT</option>
+            <option value="sale">Sales</option>
+            <option value="developer">developer</option>
+          </select>
+        </label>
+        <Validation_P>(validation text)</Validation_P>
         {/* ----------------------------------- */}
         <button>Submit</button>
       </form>
