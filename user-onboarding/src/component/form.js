@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 export default function Form(props) {
   const initial_state = {
@@ -26,8 +27,8 @@ export default function Form(props) {
   `;
 
   const cb_onChange = (event) => {
-    console.log("event.target.name = ", event.target.name);
-    console.log("event.target.value = ", event.target.value);
+    // console.log("event.target.name = ", event.target.name);
+    // console.log("event.target.value = ", event.target.value);
     const { name, value } = event.target;
     const toUseValue =
       name === "termsOfService" ? !stateForm.termsOfService : value;
@@ -36,7 +37,13 @@ export default function Form(props) {
 
   const cb_onSubmit = (event) => {
     event.preventDefault();
-    props.set_stateUser(stateForm);
+
+    const API_URL = "https://reqres.in/api/users";
+    axios.post(API_URL, stateForm).then((response) => {
+      //   console.log("response.status = ", response.status);
+      //   console.log("response.data = ", response.data);
+      props.set_stateUser(response.data);
+    });
   };
 
   return (

@@ -18,7 +18,7 @@ function App() {
 
   //run when stateArray changes
   useEffect(() => {
-    console.log("stateArray.length = ", stateArray.length);
+    // console.log("stateArray.length = ", stateArray.length);
   }, [stateArray]);
 
   //run when stateUser changes
