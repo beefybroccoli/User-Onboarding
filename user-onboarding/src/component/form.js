@@ -5,6 +5,24 @@ import axios from "axios";
 import * as yup from "yup";
 import { formSchema } from "./schema";
 
+const Form_Div = styled.div`
+  border: 1px solid blue;
+  margin: 0 1% 0 1%;
+`;
+
+const Validation_P = styled.div`
+  background-color: grey;
+  color: blue;
+`;
+
+const Input_Text = styled.input`
+  border: 2px solid blue;
+`;
+
+const Select_Input = styled.select`
+  border: 2px solid blue;
+`;
+
 export default function Form(props) {
   const initial_state_stateFormData = {
     name: "",
@@ -30,29 +48,6 @@ export default function Form(props) {
     initial_state_stateFormValidation
   );
 
-  const Form_Div = styled.div`
-    border: 1px solid blue;
-    margin: 0 1% 0 1%;
-  `;
-
-  const Validation_P = styled.div`
-    background-color: grey;
-    color: blue;
-  `;
-
-  const Input_Text = styled.input`
-    border: 2px solid blue;
-  `;
-
-  const Button_Show_Hide = styled.div`
-    /* hide submit button if the form is not yet validated */
-    display: ${stateBooleanValidation === false ? "none" : "block"};
-  `;
-
-  const Select_Input = styled.select`
-    border: 2px solid blue;
-  `;
-
   /*
    helper for input validation
   */
@@ -71,25 +66,24 @@ export default function Form(props) {
       });
   };
 
-  /*
-    keep track of the fields and perform validation
-  */
-  useEffect(() => {
-    formSchema.isValid(stateFormData).then(() => {
-      set_stateBooleanValidation(!stateBooleanValidation);
-    });
-  }, [stateFormData]);
-
   const cb_onChange = (event) => {
-    event.preventDefault();
     const { name, value } = event.target;
     const toUseValue =
       name === "termsOfService" ? !stateFormData.termsOfService : value;
+
+    set_stateFormData({ ...stateFormData, [name]: toUseValue });
+
     //validate each field
     cb_validate(name, toUseValue);
     //store new data in stateFormData
-    set_stateFormData({ ...stateFormData, [name]: toUseValue });
   };
+
+  useEffect(() => {
+    //validate the form whenever stateFormData change
+    formSchema.isValid(stateFormData).then((valid) => {
+      set_stateBooleanValidation(valid);
+    });
+  }, [stateFormData]);
 
   const cb_onSubmit = (event) => {
     event.preventDefault();
@@ -104,12 +98,12 @@ export default function Form(props) {
 
   return (
     <Form_Div>
-      <h2>Form.js</h2>
       <form onSubmit={cb_onSubmit}>
         {/* ----------------------------------- */}
         <label>
           <b>Name : </b>
           <Input_Text
+            // key="name"
             type="text"
             onChange={cb_onChange}
             name="name"
@@ -122,6 +116,7 @@ export default function Form(props) {
         <label>
           <b>Email : </b>
           <Input_Text
+            // key="email"
             type="text"
             onChange={cb_onChange}
             name="email"
@@ -134,6 +129,7 @@ export default function Form(props) {
         <label>
           <b>Password : </b>
           <Input_Text
+            // key="password"
             type="text"
             onChange={cb_onChange}
             name="password"
@@ -172,22 +168,9 @@ export default function Form(props) {
         </label>
         <Validation_P>{stateFormValidation.role}</Validation_P>
         {/* ----------------------------------- */}
-        <Button_Show_Hide>
-          <button>Submit</button>
-        </Button_Show_Hide>
+
+        <button>Submit</button>
       </form>
     </Form_Div>
   );
 }
-
-/*
-    if (
-      stateFormData.name !== "" &&
-      stateFormData.email !== "" &&
-      stateFormData.password != "" &&
-      stateFormData.role !== "" &&
-      stateFormData.termsOfService === true
-    ) {
-      set_stateBooleanValidation(true);
-    }
-*/
