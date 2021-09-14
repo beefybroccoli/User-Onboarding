@@ -4,7 +4,6 @@ import styled from "styled-components";
 import axios from "axios";
 import * as yup from "yup";
 import { formSchema } from "./schema";
-import { cb_validate } from "./validation";
 
 export default function Form(props) {
   const initial_state_stateFormData = {
