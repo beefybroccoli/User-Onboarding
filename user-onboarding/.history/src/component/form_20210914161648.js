@@ -2,10 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import {
-  schema_validate_input,
-  schema_validate_form,
-} from "./schema_validation";
+import { schema_validate_input, schema_validate_form } from "./schema";
 
 const Form_Div = styled.div`
   border: 1px solid blue;
@@ -154,7 +151,7 @@ export default function Form(props) {
         <Validation_P>{stateInputValidation.role}</Validation_P>
         {/* ----------------------------------- */}
 
-        <button disabled={!stateFormValidation}>Submit</button>
+        <button>Submit</button>
       </form>
     </Form_Div>
   );

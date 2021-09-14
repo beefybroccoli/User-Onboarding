@@ -78,7 +78,11 @@ export default function Form(props) {
 
   useEffect(() => {
     //validate the form whenever stateFormData change
-    schema_validate_form(stateFormData, set_stateFormValidation);
+    schema_validate_form(
+      stateFormData,
+      set_stateFormValidation,
+
+    );
   }, [stateFormData]);
 
   return (
@@ -154,7 +158,7 @@ export default function Form(props) {
         <Validation_P>{stateInputValidation.role}</Validation_P>
         {/* ----------------------------------- */}
 
-        <button disabled={!stateFormValidation}>Submit</button>
+        <button disabled={stateFormValidation}>Submit</button>
       </form>
     </Form_Div>
   );

@@ -51,6 +51,8 @@ export default function Form(props) {
     initial_state_stateFormValidationText
   );
 
+  const [stateSubmitButton, set_stateSubmitButton] = useState(true);
+
   const cb_onChange = (event) => {
     const { name, value } = event.target;
     const toUseValue =
@@ -154,7 +156,7 @@ export default function Form(props) {
         <Validation_P>{stateInputValidation.role}</Validation_P>
         {/* ----------------------------------- */}
 
-        <button disabled={!stateFormValidation}>Submit</button>
+        <button disabled={stateSubmitButton}>Submit</button>
       </form>
     </Form_Div>
   );
