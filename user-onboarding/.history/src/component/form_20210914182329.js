@@ -67,6 +67,16 @@ export default function Form(props) {
       stateInputValidation,
       set_stateInputValidation
     );
+
+    // const result = schema_validate_input_2(name, toUseValue);
+    // set_stateInputValidation({
+    //   ...stateInputValidation,
+    //   [result.name]: result.value,
+    // });
+
+    schema_validate_input_2(name, toUseValue).then(()=>{
+      
+    })
   };
 
   const cb_onSubmit = (event) => {

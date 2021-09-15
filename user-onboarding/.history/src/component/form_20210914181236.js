@@ -67,6 +67,12 @@ export default function Form(props) {
       stateInputValidation,
       set_stateInputValidation
     );
+
+    const result = awit schema_validate_input_2(name, toUseValue);
+    set_stateInputValidation({
+      ...stateInputValidation,
+      [result.name]: result.value,
+    });
   };
 
   const cb_onSubmit = (event) => {
