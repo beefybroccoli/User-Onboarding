@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import {
   schema_validate_input,
+  schema_validate_input_2,
   schema_validate_form,
 } from "./schema_validation";
 
@@ -51,7 +52,7 @@ export default function Form(props) {
     initial_state_stateFormValidation
   );
 
-  const cb_onChange = (event) => {
+   const cb_onChange = (event) => {
     const { name, value } = event.target;
     const toUseValue =
       name === "termsOfService" ? !stateFormData.termsOfService : value;
@@ -59,13 +60,15 @@ export default function Form(props) {
     //store new data in stateFormData
     set_stateFormData({ ...stateFormData, [name]: toUseValue });
 
-    //validate each field
-    schema_validate_input(
-      name,
-      toUseValue,
-      stateInputValidation,
-      set_stateInputValidation
-    );
+    // //validate each field
+    // schema_validate_input(
+    //   name,
+    //   toUseValue,
+    //   stateInputValidation,
+    //   set_stateInputValidation
+    // );
+
+    schema_validate_input_2(name, toUseValue, cb_set_stateInputValidation);
   };
 
   const cb_onSubmit = (event) => {

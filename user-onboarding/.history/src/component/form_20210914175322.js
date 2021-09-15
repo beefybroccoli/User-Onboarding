@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import {
   schema_validate_input,
+  schema_validate_input_2,
   schema_validate_form,
 } from "./schema_validation";
 
@@ -66,6 +67,8 @@ export default function Form(props) {
       stateInputValidation,
       set_stateInputValidation
     );
+
+    schema_validate_input_2(name, toUseValue, cb_set_stateInputValidation);
   };
 
   const cb_onSubmit = (event) => {

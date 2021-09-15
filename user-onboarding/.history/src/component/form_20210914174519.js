@@ -34,7 +34,7 @@ export default function Form(props) {
     role: "",
   };
 
-  const initial_state_stateFormValidation = {
+  const initial_state_stateFormValidationText = {
     name: "",
     email: "",
     password: "",
@@ -48,8 +48,12 @@ export default function Form(props) {
   const [stateFormValidation, set_stateFormValidation] = useState(false);
 
   const [stateInputValidation, set_stateInputValidation] = useState(
-    initial_state_stateFormValidation
+    initial_state_stateFormValidationText
   );
+
+  const cb_set_stateInputValidation = (name, value) = {
+    set_stateInputValidation({...stateFormValidationText, [name]})
+  }
 
   const cb_onChange = (event) => {
     const { name, value } = event.target;
